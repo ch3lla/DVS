@@ -10,6 +10,7 @@ contract VotingSystem {
     mapping(bytes32 => uint256) private candidateIndex;
     Candidate[] public candidates;
     mapping(address => bool) public hasVoted;
+    address private owner;
 
     constructor() {
         addCandidate("Emmanuella");
@@ -40,5 +41,14 @@ contract VotingSystem {
 
     function getVotes() public view returns (Candidate[] memory) {
         return candidates;
+    }
+
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
+    }
+
+    function ownerAddCandidate(string memory _name) public onlyOwner {
+        addCandidate(_name);
     }
 }
