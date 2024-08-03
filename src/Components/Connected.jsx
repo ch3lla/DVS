@@ -2,7 +2,7 @@ import React from "react";
 
 const Connected = (props) => {
     return (
-        <div className='login-conatiner'>
+        <div className='connected-conatiner'>
             <h1 className="connected-message">You are connected to metamask</h1>
             <p className="connected-account">Metamask Account: {props.account}</p>
 
@@ -12,7 +12,7 @@ const Connected = (props) => {
                 <div>
                     <input type="text" placeholder="Enter candidate name" value = {props.name} onChange={props.handleCandidateNameChange}></input>
                     <br />
-                    <button className="login-button" onClick={props.voteFunction}>Vote</button>
+                    <button className="connected-button" onClick={props.voteFunction}>Vote</button>
                 </div>
             )}
 

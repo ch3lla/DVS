@@ -1,34 +1,58 @@
+/* Add a background image */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif; 
+  background: url('../public/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f1f1f1;
+  background-color: rgba(0, 0, 0, 0.6); /* Add a dark overlay */
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .welcome-message {
-  font-size: 2rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
   text-align: center;
   margin-bottom: 2rem;
+  color: #fff; /* Change text color to white */
+  font-weight: bold;
 }
 
 .login-button {
-  background-color: #007bff;
+  background-color: #838383;
   color: #fff;
   font-size: 1.2rem;
   border: none;
+  text-align: center;
+  margin: auto;
+  display: flex;
+
   border-radius: 0.3rem;
   padding: 1rem 2rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 200px;
 }
 
 .login-button:hover {
-  background-color: #0069d9;
+  background-color: #ffffff;
+  color: #000000;
+  transform: scale(1.05);
 }
 
-
+/* Connected container */
 .connected-container {
   display: flex;
   flex-direction: column;
@@ -71,11 +95,11 @@
   text-align: center;
 }
 
-
+/* Candidates table */
 .candidates-table {
   border-collapse: collapse;
   width: 50%;
-  text-align:center;
+  text-align: center;
 }
 
 .candidates-table th, .candidates-table td {
@@ -88,6 +112,7 @@
   background-color: #f2f2f2;
 }
 
+/* Input text styling */
 input[type=text] {
   padding: 10px;
   border: 1px solid #ccc;
