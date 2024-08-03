@@ -2,55 +2,43 @@
 pragma solidity ^0.8.0;
 
 contract VotingSystem {
-
     struct Candidate {
         string name;
-        uint numberOfVotes;
+        uint256 numberOfVotes;
     }
 
-    mapping(uint => Candidate) candidates;
-    mapping(address => uint) votesPerVoter;
-    mapping(address => bool) voterVoted;
+    mapping(bytes32 => uint256) private candidateIndex;
+    Candidate[] public candidates;
+    mapping(address => bool) public hasVoted;
 
-    constructor(){
-        candidates[0] = Candidate("Emmanuella", 0);
-        candidates[1] = Candidate("KamKam", 0);
-        candidates[2] = Candidate("Gabriella", 0);
-        voterVoted[msg.sender] = false;
+    constructor() {
+        addCandidate("Emmanuella");
+        addCandidate("KamKam");
+        addCandidate("Gabriella");
     }
 
-    modifier notVoted {
-        require(!voterVoted[msg.sender] || votesPerVoter[msg.sender] == 0, "You have already voted");
-        _;
+    function addCandidate(string memory _name) private {
+        bytes32 nameHash = keccak256(abi.encodePacked(_name));
+        require(candidateIndex[nameHash] == 0, "Candidate already exists");
+        candidates.push(Candidate(_name, 0));
+        candidateIndex[nameHash] = candidates.length;
     }
 
-    function vote(string memory _nameOfCandidate) public notVoted returns (string memory) {
+    function vote(string memory _nameOfCandidate) public returns (string memory) {
+        require(!hasVoted[msg.sender], "You have already voted");
+        
         bytes32 nameHash = keccak256(abi.encodePacked(_nameOfCandidate));
-        bytes32 ellaHash = keccak256(abi.encodePacked("Emmanuella"));
-        bytes32 kamkamHash = keccak256(abi.encodePacked("KamKam"));
-        bytes32 gabbyHash = keccak256(abi.encodePacked("Gabriella"));
-
-        if (nameHash == ellaHash) {
-            candidates[0].numberOfVotes++;
-        } else if (nameHash == kamkamHash){
-            candidates[1].numberOfVotes++;
-        } else if (nameHash == gabbyHash) {
-            candidates[2].numberOfVotes++;
-        } else {
-            revert("Invalid candidate name");
-        }
-
-        voterVoted[msg.sender] = true;
-        string memory Text = "You have already casted your vote";
-        votesPerVoter[msg.sender]++;
-        return Text;
+        uint256 index = candidateIndex[nameHash];
+        
+        require(index > 0, "Invalid candidate name");
+        
+        candidates[index - 1].numberOfVotes++;
+        hasVoted[msg.sender] = true;
+        
+        return "You have successfully cast your vote";
     }
 
-    function getVotes() public view returns (Candidate[] memory){
-        Candidate[] memory candidateList = new Candidate[](3);
-        candidateList[0] = candidates[0];
-        candidateList[1] = candidates[1];
-        candidateList[2] = candidates[2];
-        return candidateList;
+    function getVotes() public view returns (Candidate[] memory) {
+        return candidates;
     }
 }
