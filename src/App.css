@@ -102,6 +102,8 @@ body {
   border-collapse: collapse;
   width: 50%;
   text-align: center;
+  margin: auto;
+  display: flex;
 }
 
 .candidates-table th, .candidates-table td {
